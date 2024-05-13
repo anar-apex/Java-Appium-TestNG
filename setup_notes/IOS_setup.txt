@@ -1,0 +1,19 @@
+1. Download X-code from App store
+2. Install the X-code, run in terminal "xcode-select --install"
+3. Install Carthage (dependency manager for macOS & IOS), run in terminal "brew install carthage"
+Note: If you don't have homebrew then install homebrew from terminal
+ run in terminal: "/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+4. IOS capabilities configuration in wdio.conf.js and Appium inspector
+capabilities: [{
+      "platformName": "IOS",
+      "appium:deviceName": "iPhone 14 Pro Max",
+      "appium:platformVersion": "16.0",
+      "appium:automationName": "XCUItest",
+      "appium:app": iosAppPath,
+    }],
+
+5. Install 2 IOS virtual devices for Xcode, 1 for Manual and 1 for local automation
+   *Go to ->  X-Code >Windows > Devices & Simulator> Simulators
+6. Start the session Appium inspector with IOS simulator capabilities (for ANDROID first we need to turn on the emulator/device than start session in Appium inspector,
+ but for IOS we just directly start session in Appium Inspector, it will automatically turn ON the required simulator attached to Xcode)
+

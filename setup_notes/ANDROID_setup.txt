@@ -1,0 +1,41 @@
+                             ANDROID
+1. Download JDK from Oracle - stable Java SE 11
+2. Install Appium “sudo npm install -g appium”
+3. Install Appium doctor “sudo npm i -g appium-doctor” then check all configurations with that
+4. Install Android studio
+5. Configure Java, Appium environment variables in  zsh_profile file
+         1. Create a zsh_profile file ( vi ~/.zshenv )
+         2. Open the file (open ~/.zshenv)
+         3. Add env variables to zsh_profile
+                export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk-11.jdk/Contents/Home
+                export ANDROID_HOME=/Users/<username>/Library/Android/sdk
+                export PATH=$PATH:$ANDROID_HOME/platform-tools
+                export PATH=$PATH:$ANDROID_HOME/tools
+                export PATH=$PATH:$ANDROID_HOME/tools/bin
+                export PATH=$PATH:$ANDROID_HOME/emulator
+          4. Save the file
+          5. Source the file (source  ~/.zshenv)
+5. Open Android Studio, go to Virtual Device manager, install at least 2 builds, R and Q
+6. Install Appium inspector
+7. Download apk for the app which you will automate (copy the url from Google play, use the link to generate APK)
+8. Install drivers for IOS and Android
+        1. Android: appium driver install uiautomator2
+        2. IOS: appium driver install XCUITest
+ 9. Install APK to the Virtual devices
+     Open Android studio and run the device from Virtual device management (2 devices, 1 for Manual test another one for Automation)
+     Open Appium inspector and add desired capabilities for manual testing
+    {
+  "appium:platformName": "Android",
+  "appium:platformVersion": "11.0",
+  "appium:deviceName": "Pixel_11",
+  "appium:app": "/Users/<username>/Downloads/ApiDemos-debug.apk",
+  "appium:automationName": "UIAutomator2"
+    }
+
+//To land to the specific screen/page directly
+ “appium:appPackage” : “io.appium.android.apis”
+ “appium:appActivity” : “.app.AlertDialogSamples”
+ the package and activity name shows the screen/page where user wants to land directly in the app. We can get those values from Appium  inspector or from Developers
+
+10. Start the local appium server:  appium -p 4724 for Manual testing (for automation capabilities and port 4723 should be configured in wdio.conf.js file, while triggering the automation, it will automatically turn on appium server and connect to port 4723)
+11. Start session with appium-inspector (the apk will be downloaded to your virtual device)
