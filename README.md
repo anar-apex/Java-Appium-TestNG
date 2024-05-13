@@ -1,1 +1,1 @@
-Setup notest for ANDROID and IOS attached to the procect under folder "setup_notes"
+Setup notest for ANDROID and IOS attached to the project under folder "setup_notes"
