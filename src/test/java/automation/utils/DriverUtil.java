@@ -5,39 +5,62 @@ import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.options.UiAutomator2Options;
 import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.ios.options.XCUITestOptions;
+import org.openqa.selenium.remote.DesiredCapabilities;
 
-import java.io.IOException;
 import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.time.Duration;
 
 
 public class DriverUtil {
 
+    private static final String BS_USERNAME = "anar_jYhBtq";
+    private static final String BS_KEY = "hbNLyyAwqzfELwjqhx9f";
+    private static final String URL = "https://" + BS_USERNAME + ":" + BS_KEY + "@hub-cloud.browserstack.com/wd/hub";
+    private static final String BS_ANDROID_APP = "bs://51a13558a3e018454b141de69736b26f4f7d4c79";
+
+    //TODO: Convert .app file to .ipa file (for real IOS devices), upload to BS and get the app location.
+    private static final String BS_IOS_APP = "";
+
+
     public static final ThreadLocal<AppiumDriver> driverPool = new ThreadLocal<>();
 
     private DriverUtil() {
     }
 
-    public static AppiumDriver getDriver(String platform) {
+    public static AppiumDriver getDriverAndLaunchApp(String platform) {
         String url = ConfigReader.getProperty("Url");
         try {
             if (platform.equalsIgnoreCase("ANDROID")) {
-                UiAutomator2Options androidOptions = new UiAutomator2Options();
-                androidOptions.setDeviceName(ConfigReader.getProperty("AndroidDevice"));
-                androidOptions.setPlatformVersion(ConfigReader.getProperty("AndroidVersion"));
-                androidOptions.setApp(ConfigReader.getProperty("DemoApk"));
-                androidOptions.setAutoGrantPermissions(true);
-                driverPool.set(new AndroidDriver(new URL(url), androidOptions));
+//                UiAutomator2Options androidOptions = new UiAutomator2Options();
+//                        .setDeviceName(ConfigReader.getProperty("AndroidDevice"))
+//                        .setPlatformVersion(ConfigReader.getProperty("AndroidVersion"))
+//                        .setApp(ConfigReader.getProperty("DemoApk"))
+//                        .setAutoGrantPermissions(true);
+//                        .setAppPackage("")
+//                        .setAppActivity("")
+//                driverPool.set(new AndroidDriver(new URL(url), androidOptions));
+                DesiredCapabilities capabilities = new DesiredCapabilities();
+                capabilities.setCapability("deviceName", "Samsung Galaxy S21");
+                capabilities.setCapability("os_version", "12.0");
+                capabilities.setCapability("name", "Android tests");
+                capabilities.setCapability("app", BS_ANDROID_APP);
+                driverPool.set(new AndroidDriver(new URL(URL), capabilities));
             } else if (platform.equalsIgnoreCase("IOS")) {
-                XCUITestOptions iosOptions = new XCUITestOptions();
-                iosOptions.setDeviceName(ConfigReader.getProperty("IOSDevice"));
-                iosOptions.setPlatformVersion(ConfigReader.getProperty("IOSVersion"));
-                iosOptions.setApp(ConfigReader.getProperty("UIKitCatalogApp"));
-                iosOptions.setWdaLaunchTimeout(Duration.ofSeconds(20));
-                driverPool.set(new IOSDriver(new URL(url), iosOptions));
+//                XCUITestOptions iosOptions = new XCUITestOptions()
+//                        .setDeviceName(ConfigReader.getProperty("IOSDevice"))
+//                        .setPlatformVersion(ConfigReader.getProperty("IOSVersion"))
+//                        .setApp(ConfigReader.getProperty("UIKitCatalogApp"))
+//                        .setAppPackage("")
+//                        .setAppActivity("")
+//                        .setWdaLaunchTimeout(Duration.ofSeconds(20));
+//                driverPool.set(new IOSDriver(new URL(url), iosOptions));
+                DesiredCapabilities capabilities = new DesiredCapabilities();
+                capabilities.setCapability("deviceName", "iPhone 14 Pro Max");
+                capabilities.setCapability("os_version", "16.0");
+                capabilities.setCapability("name", "IOS tests");
+                capabilities.setCapability("app", BS_IOS_APP);
+                driverPool.set(new IOSDriver(new URL(URL), capabilities));
             } else {
                 throw new IllegalArgumentException("Unsupported platform: " + platform);
             }

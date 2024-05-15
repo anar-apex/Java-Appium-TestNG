@@ -31,7 +31,6 @@ public class HomePage {
     @AndroidFindBy(xpath = "//android.widget.TextView[@content-desc='Alert Dialogs']")
     public WebElement ALERT_DIALOGS;
 
-
     @AndroidFindBy(accessibility = "Views")
     public WebElement VIEWS;
 

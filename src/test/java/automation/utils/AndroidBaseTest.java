@@ -3,13 +3,9 @@ package automation.utils;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import automation.pageObjects.android.Pages_Android;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.AfterSuite;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
+import org.testng.ITestResult;
+import org.testng.annotations.*;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
 import java.time.Duration;
 
 public class AndroidBaseTest extends AndroidActions {
@@ -18,17 +14,21 @@ public class AndroidBaseTest extends AndroidActions {
     public AndroidDriver driver;
     public Pages_Android pages;
 
-
-    @BeforeClass(alwaysRun = true)
-    public void startAppiumServer() {
-        service = getAppiumService();
-        service.start();
+    @BeforeSuite
+    public void deleteExistingAllureReport() {
+        deletePreviousAllureReport();
     }
+
+//    @BeforeClass(alwaysRun = true)
+//    public void startAppiumServer() {
+//        service = getAppiumService();
+//        service.start();
+//    }
 
 
     @BeforeMethod(alwaysRun = true)
-    public void driverSetup() throws IOException, URISyntaxException {
-        driver = (AndroidDriver) DriverUtil.getDriver("ANDROID");
+    public void driverSetup() {
+        driver = (AndroidDriver) DriverUtil.getDriverAndLaunchApp("ANDROID");
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
 
         //Pages
@@ -37,14 +37,18 @@ public class AndroidBaseTest extends AndroidActions {
 
 
     @AfterMethod(alwaysRun = true)
-    public void endSession() {
+    public void endSession(ITestResult result) {
+        if (result.getStatus() == ITestResult.FAILURE) {
+            failureScreenShot(driver);
+        }
         driver.quit();
     }
 
     @AfterSuite(alwaysRun = true)
     public void stopAppiumServer() {
         DriverUtil.quitDriver();
-        service.stop();
+//        service.stop();
+        generateNewAllureReport();
     }
 
 }

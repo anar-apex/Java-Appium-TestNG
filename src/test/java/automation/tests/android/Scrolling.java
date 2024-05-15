@@ -2,6 +2,8 @@ package automation.tests.android;
 
 import automation.utils.AndroidActions;
 import automation.utils.AndroidBaseTest;
+import automation.utils.TestOwners;
+import io.qameta.allure.Allure;
 import org.openqa.selenium.NoSuchElementException;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -10,6 +12,7 @@ public class Scrolling extends AndroidBaseTest {
 
     @Test
     public void scrollVerticalToTheEnd() {
+        Allure.addDescription("Owner: " + TestOwners.ANAR_SALMANOV);
         pages.homePage.VIEWS.click();
 
         //Validate element is not visible in main screen
@@ -27,6 +30,7 @@ public class Scrolling extends AndroidBaseTest {
 
     @Test
     public void scrollToTheElement() {
+        Allure.addDescription("Owner: " + TestOwners.ANAR_SALMANOV);
         pages.homePage.VIEWS.click();
 
         //Validate element is not visible in main screen

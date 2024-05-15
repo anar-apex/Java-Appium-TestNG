@@ -13,9 +13,9 @@ import java.util.Map;
 public class ExcelUtil {
 
 
-    private Sheet workSheet;
-    private Workbook workBook;
-    private String path;
+    private final Sheet workSheet;
+    private final Workbook workBook;
+    private final String path;
 
     public ExcelUtil(String path, String sheetName) {
         this.path = path;
@@ -36,8 +36,7 @@ public class ExcelUtil {
         Cell cell;
         try {
             cell = workSheet.getRow(rowNum).getCell(colNum);
-            String cellData = cell.toString();
-            return cellData;
+            return cell.toString();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -64,7 +63,7 @@ public class ExcelUtil {
             Row row = workSheet.getRow(i);
             // create map of the row using the column and value
             // column map key, cell value --> map value
-            Map<String, String> rowMap = new HashMap<String, String>();
+            Map<String, String> rowMap = new HashMap<>();
             for (Cell cell : row) {
                 int columnIndex = cell.getColumnIndex();
                 rowMap.put(columns.get(columnIndex), cell.toString());

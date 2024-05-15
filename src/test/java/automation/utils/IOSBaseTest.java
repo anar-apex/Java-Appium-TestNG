@@ -3,13 +3,9 @@ package automation.utils;
 import automation.pageObjects.ios.Pages_Ios;
 import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.AfterSuite;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
+import org.testng.ITestResult;
+import org.testng.annotations.*;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
 import java.time.Duration;
 
 public class IOSBaseTest extends IOSActions {
@@ -18,6 +14,12 @@ public class IOSBaseTest extends IOSActions {
     public IOSDriver driver;
     public Pages_Ios pages;
 
+    @BeforeSuite
+    public void deleteExistingAllureReport(){
+        deletePreviousAllureReport();
+    }
+
+
     @BeforeClass(alwaysRun = true)
     public void startAppiumServer() {
         service = getAppiumService();
@@ -25,21 +27,28 @@ public class IOSBaseTest extends IOSActions {
     }
 
     @BeforeMethod
-    public void driverSetup() throws IOException, URISyntaxException {
-        driver = (IOSDriver) DriverUtil.getDriver("IOS");
+    public void driverSetup()  {
+        driver = (IOSDriver) DriverUtil.getDriverAndLaunchApp("IOS");
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+
         //Pages
         pages = new Pages_Ios(driver);
     }
 
 
     @AfterMethod(alwaysRun = true)
-    public void quitDriver() {
+    public void endSession(ITestResult result) {
+        if (result.getStatus() == ITestResult.FAILURE) {
+            failureScreenShot(driver);
+        }
         driver.quit();
     }
 
     @AfterSuite(alwaysRun = true)
     public void stopAppiumServer() {
+        DriverUtil.quitDriver();
         service.stop();
+        generateNewAllureReport();
     }
 
 }
