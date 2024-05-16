@@ -1,8 +1,8 @@
 package automation.utils;
 
+import automation.pageObjects.android.Pages_Android;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
-import automation.pageObjects.android.Pages_Android;
 import org.testng.ITestResult;
 import org.testng.annotations.*;
 
@@ -19,16 +19,20 @@ public class AndroidBaseTest extends AndroidActions {
         deletePreviousAllureReport();
     }
 
-//    @BeforeClass(alwaysRun = true)
-//    public void startAppiumServer() {
-//        service = getAppiumService();
-//        service.start();
-//    }
+    @Parameters({"Platform"})
+    @BeforeClass(alwaysRun = true)
+    public void startAppiumServer(@Optional String platform) {
+        if (platform == null) {
+            service = getAppiumService();
+            service.start();
+        }
+    }
 
-
+    @Parameters({"Platform"})
     @BeforeMethod(alwaysRun = true)
-    public void driverSetup() {
-        driver = (AndroidDriver) DriverUtil.getDriverAndLaunchApp("ANDROID");
+    public void driverSetup(@Optional String platform) {
+        platform = (platform == null) ? "ANDROID" : platform;
+        driver = (AndroidDriver) DriverUtil.getDriverAndLaunchApp(platform);
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
 
         //Pages
@@ -44,10 +48,13 @@ public class AndroidBaseTest extends AndroidActions {
         driver.quit();
     }
 
+    @Parameters({"Platform"})
     @AfterSuite(alwaysRun = true)
-    public void stopAppiumServer() {
+    public void stopAppiumServer(@Optional String platform) {
         DriverUtil.quitDriver();
-//        service.stop();
+        if (platform == null) {
+            service.stop();
+        }
         generateNewAllureReport();
     }
 
