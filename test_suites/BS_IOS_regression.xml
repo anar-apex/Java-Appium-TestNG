@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="IOS regression">
+
+    <parameter name="Platform" value="BS_IOS"></parameter>
+    <test thread-count="5" name="IOS tests">
+        <classes>
+            <class name="automation.tests.ios.ExcelReading_DDT"/>
+            <class name="automation.tests.ios.Scrolling_ios"/>
+            <class name="automation.tests.ios.LongPress_ios"/>
+        </classes>
+    </test>
+
+
+</suite>

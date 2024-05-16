@@ -1,7 +1,8 @@
 # Overview
-This is a Java+Appium+TesNG framework designed to test native and hybrid applications developed for IOS and ANDROID platforms.
+This automation framework, designed for testing native and hybrid applications developed for iOS and Android platforms, utilizes Java, Appium, and TestNG. It is structured with the Page Object Model (POM) and Singleton design pattern, and seamlessly integrates with the cloud service BrowserStack.
 
-## Java JDK and Appium setup
+# Prerequisites
+- Download NodeJS from official website: https://nodejs.org/en/download/ 
 - Download JDK from Oracle: stable Java SE 11 or higher
 - Install Appium: “sudo npm install -g appium”
 - Install Appium doctor: “sudo npm i -g appium-doctor” 
@@ -21,7 +22,7 @@ This is a Java+Appium+TesNG framework designed to test native and hybrid applica
  export PATH=$PATH:$ANDROID_HOME/tools/bin
  export PATH=$PATH:$ANDROID_HOME/emulator
 - Save the file
-- Source the file: run " source  ~/.zshenv " in terminal
+- Source the file: run "source  ~/.zshenv" in terminal
 - Open Android Studio, go to Virtual Device Manager, install at least 2 builds, R and Q
 - Download apk for the app which you will automate or generate apk of the app (copy the url from Google play, use the link to generate APK on apk generator sites)
 - Install ANDROID driver UIAutomator2
@@ -74,13 +75,18 @@ To land to the specific screen/page directly, following capabilities should be i
    - “appium:appPackage” : “appPackageValue”
    - “appium:appActivity” : “appActivityValue"
 
-## Run tests in BrowserStack with Parallel execution
+## Running tests in BrowserStack
 - Create a BrowserStack account (or use existing BrowserStack of current client/company)
 - Upload the app to the BrowserStack and copy app location link (ex: bs://51a13558a3e018454b141de69736b26f4f7d4c79)
 - Install BrowserStack plugin to your IDE (Eclipse, IntelliJ etc. )
 - Generate browserstack.yml file for the project
-  - right click on project -> click BrowserStack -> Integrate with App Automate SDK
-  - provide userName and accessKey and click OK
-  - In the project directory will be generated new file called "browserstack.ym" and that file will have available device details along with BS_Username and BS_accessKey, later sensitive details can be passed from GitHub secrets in runtime for security purposes. Initially there will be 3 available devices, but later we can add new device to the BS account, so we can run our tests in desired devices
-- Set "app" section to read your app location link in browserstack.yml
-  - app: bs://51a13558a3e018454b141de69736b26f4f7d4c79 (this field is different for different users)
+- Provide BS_Username, BS_AccessKey, BS_App_Location and BS_URL to establish connection with BS account
+- Create a new Parametrized testNG.xm file and run it
+
+## Running tests in local machine
+- Add your local device configurations to the "config.properties" file
+- Read config parameters in runtime and pass to the tests
+
+## Reporting
+- This framework generates Allure report for single test and entire test suite run.
+

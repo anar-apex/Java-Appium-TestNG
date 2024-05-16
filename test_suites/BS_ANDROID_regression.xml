@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="ANDROID regression">
+
+    <parameter name="Platform" value="BS_ANDROID"></parameter>
+    <test thread-count="5" name="ANDROID tests">
+        <classes>
+            <class name="automation.tests.android.Alerts"/>
+            <class name="automation.tests.android.DragAndDrop"/>
+            <class name="automation.tests.android.LongPress"/>
+            <class name="automation.tests.android.Scrolling"/>
+            <class name="automation.tests.android.Swipe"/>
+        </classes>
+    </test>
+
+
+</suite>
