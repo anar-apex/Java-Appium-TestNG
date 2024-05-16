@@ -1,0 +1,7 @@
+.idea
+.DB_store
+allure-results
+allure-report
+target
+.env
+logs
